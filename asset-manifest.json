@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/waf_clients/static/css/main.7acaea2f.css",
-    "main.js": "/waf_clients/static/js/main.d88e9950.js",
+    "main.js": "/waf_clients/static/js/main.c0976577.js",
     "index.html": "/waf_clients/index.html",
     "main.7acaea2f.css.map": "/waf_clients/static/css/main.7acaea2f.css.map",
-    "main.d88e9950.js.map": "/waf_clients/static/js/main.d88e9950.js.map"
+    "main.c0976577.js.map": "/waf_clients/static/js/main.c0976577.js.map"
   },
   "entrypoints": [
     "static/css/main.7acaea2f.css",
-    "static/js/main.d88e9950.js"
+    "static/js/main.c0976577.js"
   ]
 }
