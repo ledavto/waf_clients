@@ -1,13 +1,11 @@
 import { useState } from 'react';
 
 export const User = ({ addUser }) => {
-  const [name, setName] = useState('');
+  //   const [name, setName] = useState('');
 
   const handleSubmit = e => {
     e.preventDefault();
-    // addUser({ name });
 
-    // setName(''); // Очистка поля имени
     e.target.reset(); // Сброс формы
   };
 
@@ -25,7 +23,7 @@ export const User = ({ addUser }) => {
             required
             className="form-control"
             id="exampleFormControlInput1"
-            value={name}
+            // value={name}
           />
         </div>
 
