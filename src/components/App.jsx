@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { UserForm } from './UserForm';
 import { UserList } from './UserList';
 import { nanoid } from 'nanoid';
