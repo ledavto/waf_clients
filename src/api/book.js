@@ -10,10 +10,20 @@ class Api {
     Notiflix.Notify.failure(error.response.data.message);
   }
 
-  async fetchBusinessUsers() {
+  async fetchBooks(userId) {
     try {
-      const response = await axios.get(`${this.BASE_URL}/api/user/bussines`);
-      // console.log(response.data);
+      const response = await axios.get(`${this.BASE_URL}/api/book/${userId}`);
+      console.log('List books - ', response.data);
+      return response.data;
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
+
+  async getBooks() {
+    try {
+      const response = await axios.get(`${this.BASE_URL}/api/book`);
+      console.log(response.data);
       return response.data;
     } catch (error) {
       this.handleError(error);
@@ -23,6 +33,17 @@ class Api {
   async createBook(userData) {
     try {
       const response = await axios.post(`${this.BASE_URL}/api/book`, userData);
+      return response.data;
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
+
+  async deleteBook(bookId) {
+    try {
+      const response = await axios.delete(
+        `${this.BASE_URL}/api/book/${bookId}`
+      );
       return response.data;
     } catch (error) {
       this.handleError(error);

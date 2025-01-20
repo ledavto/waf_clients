@@ -30,7 +30,7 @@ export const UserList = () => {
 
   async function updateUser(updatedUser) {
     try {
-      await apiUser.updateUser(updatedUser._id, updatedUser); // Предполагается, что есть метод `updateUser` в API
+      await apiUser.updateUser(updatedUser._id, updatedUser);
       setListUser(prevList =>
         prevList.map(user =>
           user._id === updatedUser._id ? updatedUser : user
@@ -46,8 +46,8 @@ export const UserList = () => {
     fetchUsers();
   }, []);
 
-  const handleEdit = id => {
-    setEditingUser(id); // Устанавливаем редактируемого пользователя
+  const handleEdit = user => {
+    setEditingUser(user); // Устанавливаем редактируемого пользователя
   };
 
   const handleSave = e => {

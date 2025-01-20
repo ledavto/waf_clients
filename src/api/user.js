@@ -8,6 +8,16 @@ class Api {
     Notiflix.Notify.failure(error.response.data.message);
   }
 
+  async fetchBusinessUsers() {
+    try {
+      const response = await axios.get(`${this.BASE_URL}/api/user/bussines`);
+      // console.log(response.data);
+      return response.data;
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
+
   async getUsers(params) {
     try {
       const response = await axios.get(`${this.BASE_URL}/api/user`);

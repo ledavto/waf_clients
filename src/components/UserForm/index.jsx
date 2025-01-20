@@ -17,6 +17,7 @@ export const UserForm = () => {
     } catch (error) {
       console.error('Error adding user:', error);
     }
+    e.target.reset(); // Сброс формы
   };
 
   return (

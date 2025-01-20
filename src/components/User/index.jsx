@@ -7,17 +7,41 @@ export const User = () => {
   const [listUser, setListUser] = useState([]);
   const [seeBook, setSeeBook] = useState(false);
   const [Booking, setBooking] = useState(false);
+  const [selBusines, setSelBusines] = useState('');
 
-  const handleSubmit = e => {
+  const [listBooks, setListBooks] = useState([]);
+
+  async function fetchListBooks(id) {
+    try {
+      const books = await apiBook.fetchBooks(id);
+      console.log('Fetched books:', books);
+      setListBooks(books);
+    } catch (error) {
+      console.error('Error fetching books:', error);
+    }
+  }
+
+  const handleSubmit = async e => {
     e.preventDefault();
-
+    try {
+      const newBook = {
+        clientId: e.target.user.value,
+        businessId: e.target.businessBook.value,
+        dateBook: e.target.date.value,
+      };
+      const addedBook = await apiBook.createBook(newBook);
+      console.log('Book added:', addedBook);
+      setBooking(false);
+    } catch (error) {
+      console.error('Error adding book:', error);
+    }
     e.target.reset(); // Сброс формы
   };
 
   async function fetchBusinessUsers() {
     try {
-      const response = await apiBook.fetchBusinessUsers();
-      console.log('User - ', response);
+      const response = await apiUser.fetchBusinessUsers();
+      console.log('Business - ', response);
       setBusinessUsers(response || []);
     } catch (error) {
       console.error('Error fetching bussines users:', error);
@@ -34,6 +58,15 @@ export const User = () => {
     }
   }
 
+  async function deleteBook(id) {
+    try {
+      await apiBook.deleteBook(id);
+      setListBooks(prevList => prevList.filter(user => user._id !== id));
+    } catch (error) {
+      console.error('Error delete user:', error);
+    }
+  }
+
   useEffect(() => {
     fetchBusinessUsers();
     fetchUsers();
@@ -44,15 +77,22 @@ export const User = () => {
       <h1>User</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label htmlFor="typeUser" className="form-label fw-bold">
+          <label htmlFor="user" className="form-label fw-bold">
             User name
           </label>
           <select
-            name="typeUser"
+            name="user"
             className="form-control"
-            id="typeUser"
+            id="user"
             required
+            onChange={e => {
+              setSeeBook(false);
+              setBooking(false);
+              setSelBusines(e.target.value);
+              console.log(e.target.value);
+            }}
           >
+            <option value="" selected></option>
             {listUser.length > 0 &&
               listUser.map(user => (
                 <option value={user._id}>{user.name}</option>
@@ -63,15 +103,16 @@ export const User = () => {
         {Booking && (
           <>
             <div className="mb-3">
-              <label htmlFor="typeUser" className="form-label fw-bold">
+              <label htmlFor="businessBook" className="form-label fw-bold">
                 Booking to bussines user
               </label>
               <select
-                name="typeUser"
+                name="businessBook"
                 className="form-control"
-                id="typeUser"
+                id="businessBook"
                 required
               >
+                <option value="" selected></option>
                 {businessUsers.length > 0 &&
                   businessUsers.map(user => (
                     <option value={user._id}>{user.name}</option>
@@ -107,8 +148,9 @@ export const User = () => {
             <button
               className="btn btn-primary me-2"
               type="button"
-              onClick={() => {
+              onClick={e => {
                 setSeeBook(true);
+                fetchListBooks(selBusines);
               }}
             >
               See books
@@ -125,6 +167,53 @@ export const User = () => {
           </div>
         )}
       </form>
+      {seeBook && (
+        <ul className="list-group">
+          {listBooks.length > 0 &&
+            listBooks.map(elem => {
+              const formattedDate = new Date(elem.dateBook)
+                .toISOString()
+                .split('T')[0];
+
+              return (
+                <li
+                  className="list-group-item d-flex align-items-center justify-content-between"
+                  key={elem._id}
+                >
+                  <div className="row flex-grow-1">
+                    <div className="col-6 text-truncate">
+                      <input
+                        type="date"
+                        name="date"
+                        className="form-control"
+                        defaultValue={formattedDate}
+                      />
+                    </div>
+                    <div className="col-6 text-truncate text-center">
+                      {elem.businessId}
+                    </div>
+                  </div>
+                  <div className="btn-group">
+                    <button
+                      className="btn btn-primary me-2"
+                      type="button"
+                      // onClick={() => handleEdit(elem)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="btn btn-danger"
+                      type="button"
+                      onClick={() => deleteBook(elem._id)}
+                    >
+                      Del
+                    </button>
+                  </div>
+                </li>
+              );
+            })}
+        </ul>
+      )}
     </div>
   );
 };
