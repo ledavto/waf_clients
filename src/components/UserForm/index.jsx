@@ -9,7 +9,7 @@ export const UserForm = () => {
         name: e.target.name.value,
         typeUser: e.target.typeUser.value,
       };
-      const addedUser = await apiUser.addUser(newUser);
+      await apiUser.addUser(newUser);
       // console.log('User added:', addedUser);
     } catch (error) {
       console.error('Error adding user:', error);

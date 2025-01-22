@@ -29,7 +29,7 @@ export const User = () => {
         businessId: e.target.businessBook.value,
         dateBook: e.target.date.value,
       };
-      const addedBook = await apiBook.createBook(newBook);
+      await apiBook.createBook(newBook);
       // console.log('Book added:', addedBook);
       setBooking(false);
     } catch (error) {
