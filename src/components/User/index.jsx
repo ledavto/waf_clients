@@ -175,6 +175,10 @@ export const User = () => {
                 .toISOString()
                 .split('T')[0];
 
+              //Ищем в списке бизнес клиентов для получения его имени по ID
+              const currentBus = businessUsers.find(
+                user => user._id === elem.businessId
+              );
               return (
                 <li
                   className="list-group-item d-flex align-items-center justify-content-between"
@@ -187,17 +191,18 @@ export const User = () => {
                         name="date"
                         className="form-control"
                         defaultValue={formattedDate}
+                        // onChange={}
                       />
                     </div>
                     <div className="col-6 text-truncate text-center">
-                      {elem.businessId}
+                      {currentBus.name}
                     </div>
                   </div>
                   <div className="btn-group">
                     <button
                       className="btn btn-primary me-2"
                       type="button"
-                      // onClick={() => handleEdit(elem)}
+                      // onClick={(e) => handleEdit(elem._id)}
                     >
                       Edit
                     </button>

@@ -2,7 +2,8 @@ import axios from 'axios';
 import Notiflix from 'notiflix';
 
 class Api {
-  BASE_URL = 'http://localhost:3000';
+  // BASE_URL = 'http://localhost:3000';
+  BASE_URL = 'https://waf-clients-backend.onrender.com';
 
   handleError(error) {
     Notiflix.Notify.failure(error.response.data.message);
