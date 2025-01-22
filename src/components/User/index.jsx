@@ -14,7 +14,7 @@ export const User = () => {
   async function fetchListBooks(id) {
     try {
       const books = await apiBook.fetchBooks(id);
-      console.log('Fetched books:', books);
+      // console.log('Fetched books:', books);
       setListBooks(books);
     } catch (error) {
       console.error('Error fetching books:', error);
@@ -30,7 +30,7 @@ export const User = () => {
         dateBook: e.target.date.value,
       };
       const addedBook = await apiBook.createBook(newBook);
-      console.log('Book added:', addedBook);
+      // console.log('Book added:', addedBook);
       setBooking(false);
     } catch (error) {
       console.error('Error adding book:', error);
@@ -41,7 +41,7 @@ export const User = () => {
   async function fetchBusinessUsers() {
     try {
       const response = await apiUser.fetchBusinessUsers();
-      console.log('Business - ', response);
+      // console.log('Business - ', response);
       setBusinessUsers(response || []);
     } catch (error) {
       console.error('Error fetching bussines users:', error);
@@ -67,6 +67,18 @@ export const User = () => {
     }
   }
 
+  // Состояние для хранения редактируемой даты
+  const [editableDates, setEditableDates] = useState();
+
+  const handleEdit = async id => {
+    try {
+      await apiBook.updateBook(id, { dateBook: editableDates });
+      // console.log('Date updated successfully!');
+    } catch (error) {
+      console.error('Failed to update book date:', error);
+    }
+  };
+
   useEffect(() => {
     fetchBusinessUsers();
     fetchUsers();
@@ -89,10 +101,10 @@ export const User = () => {
               setSeeBook(false);
               setBooking(false);
               setSelBusines(e.target.value);
-              console.log(e.target.value);
+              // console.log(e.target.value);
             }}
           >
-            <option value="" selected></option>
+            <option defaultValue=""></option>
             {listUser.length > 0 &&
               listUser.map(user => (
                 <option value={user._id}>{user.name}</option>
@@ -179,6 +191,7 @@ export const User = () => {
               const currentBus = businessUsers.find(
                 user => user._id === elem.businessId
               );
+
               return (
                 <li
                   className="list-group-item d-flex align-items-center justify-content-between"
@@ -191,7 +204,7 @@ export const User = () => {
                         name="date"
                         className="form-control"
                         defaultValue={formattedDate}
-                        // onChange={}
+                        onChange={e => setEditableDates(e.target.value)}
                       />
                     </div>
                     <div className="col-6 text-truncate text-center">
@@ -202,7 +215,7 @@ export const User = () => {
                     <button
                       className="btn btn-primary me-2"
                       type="button"
-                      // onClick={(e) => handleEdit(elem._id)}
+                      onClick={() => handleEdit(elem._id)}
                     >
                       Edit
                     </button>

@@ -22,7 +22,7 @@ class Api {
   async getUsers(params) {
     try {
       const response = await axios.get(`${this.BASE_URL}/api/user`);
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     } catch (error) {
       this.handleError(error);

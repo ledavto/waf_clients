@@ -1,5 +1,3 @@
-// import { useState } from 'react';
-
 import apiUser from 'api/user';
 
 export const UserForm = () => {
@@ -11,13 +9,12 @@ export const UserForm = () => {
         name: e.target.name.value,
         typeUser: e.target.typeUser.value,
       };
-      // console.log(newUser);
       const addedUser = await apiUser.addUser(newUser);
-      console.log('User added:', addedUser);
+      // console.log('User added:', addedUser);
     } catch (error) {
       console.error('Error adding user:', error);
     }
-    e.target.reset(); // Сброс формы
+    e.target.reset();
   };
 
   return (
@@ -34,8 +31,6 @@ export const UserForm = () => {
             required
             className="form-control"
             id="exampleFormControlInput1"
-            // value={name}
-            // onChange={handleChange}
           />
         </div>
         <div className="mb-3">

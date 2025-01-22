@@ -1,7 +1,5 @@
 import axios from 'axios';
 import Notiflix from 'notiflix';
-// Реалізація всіх запитів через екземпляр классу
-// nodemon ./src/js/api.js
 
 class Api {
   // BASE_URL = 'http://localhost:3000';
@@ -14,7 +12,7 @@ class Api {
   async fetchBooks(userId) {
     try {
       const response = await axios.get(`${this.BASE_URL}/api/book/${userId}`);
-      console.log('List books - ', response.data);
+      // console.log('List books - ', response.data);
       return response.data;
     } catch (error) {
       this.handleError(error);
@@ -44,6 +42,18 @@ class Api {
     try {
       const response = await axios.delete(
         `${this.BASE_URL}/api/book/${bookId}`
+      );
+      return response.data;
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
+
+  async updateBook(bookId, updDate) {
+    try {
+      const response = await axios.patch(
+        `${this.BASE_URL}/api/book/${bookId}`,
+        updDate
       );
       return response.data;
     } catch (error) {

@@ -20,7 +20,7 @@ export const UserList = () => {
   async function deleteUser(id) {
     try {
       await apiUser.deleteUser(id);
-      // console.log('Fetched users:', users);
+
       // Удаляем пользователя из локального состояния
       setListUser(prevList => prevList.filter(user => user._id !== id));
     } catch (error) {
@@ -36,7 +36,7 @@ export const UserList = () => {
           user._id === updatedUser._id ? updatedUser : user
         )
       );
-      setEditingUser(null); // Скрываем форму редактирования
+      setEditingUser(null);
     } catch (error) {
       console.error('Error updating user:', error);
     }
@@ -65,37 +65,35 @@ export const UserList = () => {
       <h1>User list</h1>
       <ul className="list-group">
         {listUser.length > 0 &&
-          listUser
-            // .filter(item => item.name.toLowerCase().includes(filter.toLowerCase()))
-            .map(elem => (
-              <li
-                className="list-group-item d-flex align-items-center justify-content-between"
-                key={elem._id}
-              >
-                <div className="row flex-grow-1">
-                  <div className="col-6 text-truncate">{elem.name}</div>
-                  <div className="col-6 text-truncate text-center">
-                    {elem.typeUser}
-                  </div>
+          listUser.map(elem => (
+            <li
+              className="list-group-item d-flex align-items-center justify-content-between"
+              key={elem._id}
+            >
+              <div className="row flex-grow-1">
+                <div className="col-6 text-truncate">{elem.name}</div>
+                <div className="col-6 text-truncate text-center">
+                  {elem.typeUser}
                 </div>
-                <div className="btn-group">
-                  <button
-                    className="btn btn-primary me-2"
-                    type="button"
-                    onClick={() => handleEdit(elem)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="btn btn-danger"
-                    type="button"
-                    onClick={() => deleteUser(elem._id)}
-                  >
-                    Del
-                  </button>
-                </div>
-              </li>
-            ))}
+              </div>
+              <div className="btn-group">
+                <button
+                  className="btn btn-primary me-2"
+                  type="button"
+                  onClick={() => handleEdit(elem)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="btn btn-danger"
+                  type="button"
+                  onClick={() => deleteUser(elem._id)}
+                >
+                  Del
+                </button>
+              </div>
+            </li>
+          ))}
       </ul>
       {editingUser && (
         <form onSubmit={handleSave} className="mt-3">
