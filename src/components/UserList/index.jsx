@@ -66,7 +66,7 @@ export const UserList = () => {
 
   return (
     <div className="container">
-      <h1>User list</h1>
+      <h1 className="text-center">User list</h1>
       {isLoading ? (
         <div className="loader">Loading...</div>
       ) : (
@@ -106,7 +106,7 @@ export const UserList = () => {
 
       {editingUser && (
         <form onSubmit={handleSave} className="mt-3">
-          <h2>Edit User</h2>
+          <h2 className="text-center">Edit User</h2>
           <div className="mb-3">
             <label htmlFor="name" className="form-label">
               Name

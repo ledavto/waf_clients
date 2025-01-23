@@ -19,7 +19,7 @@ export const UserForm = () => {
 
   return (
     <div className="container">
-      <h1>Add user</h1>
+      <h1 className="text-center">Add user</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="exampleFormControlInput1" className="form-label">

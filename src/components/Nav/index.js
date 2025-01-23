@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 
 export const Navigation = () => {
   return (
-    <div className="d-flex justify-content-start">
+    <div className="d-flex justify-content-center">
       <NavLink className="nav-item nav-link" to="/">
         User
       </NavLink>
