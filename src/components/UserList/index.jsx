@@ -1,19 +1,21 @@
-// import { UserForm } from 'components/UserForm';
-
 import apiUser from 'api/user';
+import Notiflix from 'notiflix';
 import { useEffect, useState } from 'react';
 
 export const UserList = () => {
   const [listUser, setListUser] = useState([]);
-  const [editingUser, setEditingUser] = useState(null); // Хранит данные редактируемого пользователя
+  const [editingUser, setEditingUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function fetchUsers() {
+    setIsLoading(true);
     try {
       const users = await apiUser.getUsers();
-      // console.log('Fetched users:', users);
       setListUser(users);
     } catch (error) {
-      console.error('Error fetching users:', error);
+      Notiflix.Notify.failure('Error fetching users:', error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -23,8 +25,9 @@ export const UserList = () => {
 
       // Удаляем пользователя из локального состояния
       setListUser(prevList => prevList.filter(user => user._id !== id));
+      Notiflix.Notify.success('User deleted');
     } catch (error) {
-      console.error('Error delete user:', error);
+      Notiflix.Notify.failure('Error delete user:', error);
     }
   }
 
@@ -37,8 +40,9 @@ export const UserList = () => {
         )
       );
       setEditingUser(null);
+      Notiflix.Notify.success('User updated');
     } catch (error) {
-      console.error('Error updating user:', error);
+      Notiflix.Notify.failure('Error updating user:', error);
     }
   }
 
@@ -63,38 +67,43 @@ export const UserList = () => {
   return (
     <div className="container">
       <h1>User list</h1>
-      <ul className="list-group">
-        {listUser.length > 0 &&
-          listUser.map(elem => (
-            <li
-              className="list-group-item d-flex align-items-center justify-content-between"
-              key={elem._id}
-            >
-              <div className="row flex-grow-1">
-                <div className="col-6 text-truncate">{elem.name}</div>
-                <div className="col-6 text-truncate text-center">
-                  {elem.typeUser}
+      {isLoading ? (
+        <div className="loader">Loading...</div>
+      ) : (
+        <ul className="list-group">
+          {listUser.length > 0 &&
+            listUser.map(elem => (
+              <li
+                className="list-group-item d-flex align-items-center justify-content-between"
+                key={elem._id}
+              >
+                <div className="row flex-grow-1">
+                  <div className="col-6 text-truncate">{elem.name}</div>
+                  <div className="col-6 text-truncate text-center">
+                    {elem.typeUser}
+                  </div>
                 </div>
-              </div>
-              <div className="btn-group">
-                <button
-                  className="btn btn-primary me-2"
-                  type="button"
-                  onClick={() => handleEdit(elem)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="btn btn-danger"
-                  type="button"
-                  onClick={() => deleteUser(elem._id)}
-                >
-                  Del
-                </button>
-              </div>
-            </li>
-          ))}
-      </ul>
+                <div className="btn-group">
+                  <button
+                    className="btn btn-primary me-2"
+                    type="button"
+                    onClick={() => handleEdit(elem)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-danger"
+                    type="button"
+                    onClick={() => deleteUser(elem._id)}
+                  >
+                    Del
+                  </button>
+                </div>
+              </li>
+            ))}
+        </ul>
+      )}
+
       {editingUser && (
         <form onSubmit={handleSave} className="mt-3">
           <h2>Edit User</h2>
